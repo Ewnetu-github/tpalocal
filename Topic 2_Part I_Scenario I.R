@@ -277,7 +277,7 @@ do_sim <- function(tau, n, theta_c, h, m, ktype){
 # set.seed(234245)
 # test.sim <-  do_sim(tau = c(0.25, 0.5, 0.75), n = 100,
 #                     theta_c = 0.17, h = c(0.25, 0.35),  m = 10, ktype = "ep")
-# 
+
 
 
 

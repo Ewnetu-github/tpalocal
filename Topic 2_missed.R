@@ -1,4 +1,4 @@
-
+# libraries 
 library(truncnorm)  
 library(nloptr)
 library(rgr)# for logit function
@@ -155,10 +155,9 @@ local_nll <- function(beta,  y, d, x,  ker.w = NULL) {
   return(-sum(logL[!is.infinite(logL)]))
 }
 
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
-#                           Estimation                               #
-#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
-# estimation at a single grid point
+#---------------------------------------------------------------------------------------
+#                           Estimation                               
+#---------------------------------------------------------------------------------------
 local.fit <- function(tau,  x,  y, d, theta0, h, m, ktype) 
 {  
   # x: vector of covariate

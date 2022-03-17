@@ -1,3 +1,8 @@
+#--------------------------------------------------------------------------
+# Topic 2: part one simulation for the misspecified scenario
+# the data has been generated using TPA Laplace with logit-type link function 
+# and the analysis is done by TPA Laplace with log-link function 
+#--------------------------------------------------------------------------
 # libraries 
 library(truncnorm)  
 library(nloptr)

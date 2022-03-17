@@ -269,13 +269,10 @@ do_sim <- function(tau, n, theta_c, h, m, ktype){
   AQRL3 <- apply(loss3, 2, sum, na.rm=T)*diff(range(fit$x0))/(m)
   AQRL <- rbind(AQRL1, AQRL2, AQRL3)
   
-  return(list("etahat" = fit$etahat, "phihat"= fit$phihat, "alphahat"= fit$alphahat,
+  return(list("etahat" = fit$etahat, "phihat"= fit$phihat, "alphahat" = fit$alphahat,
               "qhat1" = fit$qhat1, "qhat2" = fit$qhat2,"qhat3" = fit$qhat3,
               "theta"  = cbind(eta, phi, alpha), "qtrue" = qtrue, 
-              "ISE_eta"  = ISE_eta, "ISE_phi"  = ISE_phi, "ISE_alpha"  = ISE_alpha,
-              "AISE_eta"  = AISE_eta, "AISE_phi"  = AISE_phi, "AISE_alpha"  = AISE_alpha,
-              "AISE_all" = AISE, "loss1" = loss1,"loss2" = loss2, "loss3" = loss3, 
-              "AQRL_all" = AQRL))
+              "AISE_all" = AISE, "AQRL_all" = AQRL))
 }
 
 # set.seed(234245)

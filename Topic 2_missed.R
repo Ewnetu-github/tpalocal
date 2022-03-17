@@ -31,22 +31,11 @@ ker <- function(ktype, x) {
   }
   return(result)
 }
-
-# Standard Normal 
-f0_N <- function(s){1/sqrt(2*pi)*exp(-s^2/2)} 
-F0_N <- function(s){pnorm(s, mean = 0,sd = 1)} 
-QF_N <- function(tau){qnorm(tau, mean = 0, sd = 1, lower.tail = TRUE, log.p = FALSE)}
 # Standard Laplace
 f0_La <- function(s){0.5*exp(-abs(s))} 
 F0_La <- function(s){0.5+0.5*sign(s)*(1-exp(-abs(s)))} 
 QF_La <- function(tau){-sign(tau-0.5)*log(1-2*abs(tau-0.5))}
 S0_La <- function(s){ifelse(s<0, 1-0.5*exp(s), 0.5*exp(-s))}
-#Standard Logistic 
-f0_Lo <- function(s){exp(-s)/(1+exp(-s))^2}
-F0_Lo <- function(s){1/(1+exp(-s))}
-QF_Lo <- function(tau){log(tau/(1-tau))}
-S0_Lo <- function(s){exp(-s)/(1+exp(-s))}
-
 # Link function
 glog      <-function(s){log(s)}
 glog.inv  <-function(s){exp(s)}

@@ -1,2 +1,2 @@
-# TPA-local
-Two-piece distributions based semiparameteric quantile regression: local likelihood approach  
+# Local likelihood estimation 
+Two-piece distribution based on semiparametric quantile regression is proposed. All the three parameters (location, scale, alpha) are assumed to be unknown but smooth functions of a covariate. A kernel polynomial weighted local likelihood approach is used to estimate the unknown smooth parameters functions. Finally, the $\uptau$th conditional quantile of the survival time is estimated in a plug-in approach.

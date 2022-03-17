@@ -1,6 +1,7 @@
 #---------------------------------------------------------------------------
-# Topic 2: 
-# Two-piece distribution based semiparametric quantile regression for right censored data 
+# Topic 2:  
+# Two-piece distribution based semiparametric quantile regression 
+# for right censored data 
 # This is the code for part II simulation of Model I:  
 # comparing the new proposed method with existing competitors 
 # in estimating the conditional quantile of the survival time 

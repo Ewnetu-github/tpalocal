@@ -714,29 +714,29 @@ do_sim <- function(n, beta1, tau, alpha, theta_c, ncv, nbw, ktype = "ep"){
 # library(doParallel)
 # library(parallel)
 
-cl <- makeCluster(6)
-registerDoParallel(cl)
-
+# cl <- makeCluster(6)
+# registerDoParallel(cl)
 # 
-n = 300
-nsim = 6# number of simulated samples
-beta1 = c(1, 2)
-alpha = 0.25
-theta_c = 3.5
-ncv = 5 # 5-fold cross validation 
-nbw = 10 # grid values of bandwidth parameter 
-tau = 0.1
-ktype = "ep"
-#
-test.sim <- foreach(i=1:nsim, .errorhandling ="pass",
-                       .packages = c("dplyr","locpol", "nloptr","quantreg", "pec", "locfit",
-                                     "rqPen","gamlss", "gamlss.cens","KernSmooth", "QBAsyDist"),
-                       .export = c("hatQ_NW_beta1")) %dopar% {
-                         set.seed(i)
-                         do_sim(n = n, beta1 = beta1, tau = tau, alpha = alpha, 
-                                theta_c = theta_c, ncv = ncv, nbw = nbw, ktype = ktype)
-                       }
-stopCluster(cl)
+# # 
+# n = 300
+# nsim = 6# number of simulated samples
+# beta1 = c(1, 2)
+# alpha = 0.25
+# theta_c = 3.5
+# ncv = 5 # 5-fold cross validation 
+# nbw = 10 # grid values of bandwidth parameter 
+# tau = 0.1
+# ktype = "ep"
+# #
+# test.sim <- foreach(i=1:nsim, .errorhandling ="pass",
+#                        .packages = c("dplyr","locpol", "nloptr","quantreg", "pec", "locfit",
+#                                      "rqPen","gamlss", "gamlss.cens","KernSmooth", "QBAsyDist"),
+#                        .export = c("hatQ_NW_beta1")) %dopar% {
+#                          set.seed(i)
+#                          do_sim(n = n, beta1 = beta1, tau = tau, alpha = alpha, 
+#                                 theta_c = theta_c, ncv = ncv, nbw = nbw, ktype = ktype)
+#                        }
+# stopCluster(cl)
 
 
 

@@ -42,24 +42,22 @@ glog.inv  <-function(s){exp(s)}
 glogit    <-function(s){log(exp(s)-1)}
 glogit.inv<-function(s){log(exp(s)+1)}
 # density
-dtpa <-function(y, eta = 1, phi = 1, alpha = 0.5, f0, g)
+dtpa <-function(y,  eta, phi, alpha, f0, g)
 {
   g.prime <- Deriv::Deriv(g, "s")
   coeff <- 2*alpha*(1-alpha)*g.prime(y)/phi
   den <-   ifelse(y < eta,(coeff*f0((1-alpha)*(g(eta)-g(y))/phi)),
-                  (coeff*f0(alpha*(g(y)-g(eta))/phi)))
+                           (coeff*f0(alpha*(g(y)-g(eta))/phi)))
   return(den=den)
 }
 # CDF/Survival 
-ptpa <- function(y, eta=1, phi=1, alpha=0.5,
-                 F0, g, lower.tail = TRUE) {
+ptpa <- function(y,  eta, phi, alpha, F0, g, lower.tail = TRUE) {
   p <- ifelse(y < eta, (2*alpha*F0((1 - alpha)*(g(y) - g(eta))/phi)),
-              (2*alpha - 1 + 2*(1 - alpha)*F0(alpha*(g(y) - g(eta))/phi)))
+                       (2*alpha - 1 + 2*(1 - alpha)*F0(alpha*(g(y) - g(eta))/phi)))
   ifelse(test = lower.tail == TRUE, yes = return(p), no = return(1-p))
 }
 # quantile function 
-qtpa <- function(tau, eta=1, phi=1, alpha = 0.5, 
-                 F0, g, g.inv, QF = NULL){
+qtpa <- function(tau, eta, phi, alpha, F0, g, g.inv, QF = NULL){
   if (is.null(QF)){
     QF <- GoFKernel::inverse(F0, lower =0, upper = Inf)
   }
@@ -71,7 +69,7 @@ qtpa <- function(tau, eta=1, phi=1, alpha = 0.5,
 }
 
 # Random number generation
-rtpa<- function(n,eta=1,phi=1,alpha=0.5, F0, QF=NULL, g, g.inv){
+rtpa<- function(n, eta, phi, alpha,F0, QF=NULL, g, g.inv){
   u <- runif(n, min = 0, max = 1)
   if (is.null(QF)){
     QF <- GoFKernel::inverse(F0, lower =0, upper = Inf)

@@ -161,8 +161,9 @@ local_nll <- function(beta,  y, d, x,  ker.w = NULL) {
 # estimation at a single grid point
 local.fit <- function(tau,  x,  y, d, theta0, h, m, ktype) 
 {  
-  # p1: order of polynomial
-  # p: covariate dimension 
+  # x: vector of covariate
+  # y: vector of observed time  
+  # d: vector of censoring status 
   n <- length(y)
   x <- as.matrix(x)
   p <- dim(x)[2]

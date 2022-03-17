@@ -162,17 +162,18 @@ local_nll <- function(beta,  y, d, x,  ker.w = NULL) {
 #                           Estimation                               
 #---------------------------------------------------------------------------------------
 # Analysis has been done by TPA Laplace with log-link function
-
+# init: initial values 
+# tau: order of quantiles 
+# x: vector of covariate
+# y: vector of observed time  
+# d: vector of censoring status 
+# h: bandwidth parameter
+# m: number of grid points of x0 
+# m=n in this simulation 
+# ktype: type of kernel function 
+#---------------------------------------------------------------------------------------
 local.fit <- function(init, tau,  x,  y, d,  h, m, ktype) 
 {  
-  # init: initial values 
-  # tau: order of quantiles 
-  # x: vector of covariate
-  # y: vector of observed time  
-  # d: vector of censoring status 
-  # h: bandwidth parameter
-  # m: number of grid points of x0
-  # ktype: type of kernel function 
   n <- length(y)
   x <- as.matrix(x)
   p <- dim(x)[2]
@@ -263,9 +264,9 @@ do_sim <- function(tau, n, theta_c, h, m, ktype){
   loss1 <- sapply(1:length(h), function(i) d*check(fit$qhat1[,i] - q1_true, tau = tau[1]))
   loss2 <- sapply(1:length(h), function(i) d*check(fit$qhat2[,i] - q2_true, tau = tau[2]))
   loss3 <- sapply(1:length(h), function(i) d*check(fit$qhat3[,i] - q3_true, tau = tau[3]))
-  AQRL1 <- apply(loss1, 2, mean, na.rm=T)
-  AQRL2 <- apply(loss2, 2, mean, na.rm=T)
-  AQRL3 <- apply(loss3, 2, mean, na.rm=T)
+  AQRL1 <- apply(loss1, 2, sum, na.rm=T)*diff(range(fit$x0))/(m)
+  AQRL2 <- apply(loss2, 2, sum, na.rm=T)*diff(range(fit$x0))/(m)
+  AQRL3 <- apply(loss3, 2, sum, na.rm=T)*diff(range(fit$x0))/(m)
   AQRL <- rbind(AQRL1, AQRL2, AQRL3)
   
   return(list("etahat" = fit$etahat, "phihat"= fit$phihat, "alphahat"= fit$alphahat,

@@ -712,15 +712,4 @@ do_sim <- function(n, beta1, tau, alpha, theta_c, ncv, nbw, ktype = "ep"){
 
 
 
-#rm(list = ls())
-#load("G:/My Drive/Uhasselt and KU Leuven/Uhasselt/VSC/Model_one_new/foreach_MI_tau1_new.RData")
-#l <- length(result_MI_tau1_new)
-#ARL_tau1_new <- sapply(1:l, function(i) result_MI_tau1_new[[i]]$ARL_all)
-#boxplot(t(arl))
-#apply(arl, 1, mean)
-#betahat_new <- apply(sapply(1:l, function(i) result_MI_tau1_new[[i]]$betahat_new), 1, mean)
-#betahat_Bravo <- apply(sapply(1:l, function(i) result_MI_tau1_new[[i]]$betahat_Bravo),1, mean)
-#hcv <- sapply(1:l, function(i) result_MI_tau1_new[[i]]$h)
-#boxplot(t(hcv))
-
 

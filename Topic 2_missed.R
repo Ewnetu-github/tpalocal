@@ -108,7 +108,10 @@ Model <- function(x){
 #   beta3<- sin(pi*x)+x^2
 #   return(list(beta1 = beta1, beta2 = beta2, beta3 = beta3))
 # }
+#-----------------------------------------------------------------------#
 # Data generation
+# the data is generated  from TPA Laplace with logit-type link function
+#-----------------------------------------------------------------------#
 tpa_data <- function(n, theta_c, F0 = F0_La, QF = QF_La, 
                      g = glogit, g.inv = glogit.inv)
 {
@@ -158,11 +161,18 @@ local_nll <- function(beta,  y, d, x,  ker.w = NULL) {
 #---------------------------------------------------------------------------------------
 #                           Estimation                               
 #---------------------------------------------------------------------------------------
-local.fit <- function(tau,  x,  y, d, theta0, h, m, ktype) 
+# Analysis has been done by TPA Laplace with log-link function
+
+local.fit <- function(init, tau,  x,  y, d,  h, m, ktype) 
 {  
+  # init: initial values 
+  # tau: order of quantiles 
   # x: vector of covariate
   # y: vector of observed time  
   # d: vector of censoring status 
+  # h: bandwidth parameter
+  # m: number of grid points of x0
+  # ktype: type of kernel function 
   n <- length(y)
   x <- as.matrix(x)
   p <- dim(x)[2]
@@ -176,11 +186,11 @@ local.fit <- function(tau,  x,  y, d, theta0, h, m, ktype)
       newx = matrix(0,n,p)
       newx = x - t(matrix(rep(x0[i],p*n),p,n))
       ker.h <- apply(newx/h[j], MARGIN = 2, FUN = ker, ktype = ktype)
-      # theta0<- c(2,-0.25,1,0.05)
+
       opts <- list("algorithm"="NLOPT_LN_NELDERMEAD","xtol_rel"=1.0e-7)
-      fit <-  nloptr(x0 = theta0, eval_f = local_nll, opts = opts, 
+      fit <-  nloptr(x0 = init, eval_f = local_nll, opts = opts, 
                      y = y, d = d,  x = cbind(1, newx), ker.w = ker.h,
-                     lb = rep(-Inf, length(theta0)), ub = rep(Inf, length(theta0)))
+                     lb = rep(-Inf, length(init)), ub = rep(Inf, length(init)))
       etahat[i,j] <- glog.inv(fit$solution[1])
       phihat[i,j] <- exp(fit$solution[3])
       alphahat[i,j] <- expit(fit$solution[5])
@@ -204,7 +214,6 @@ do_sim <- function(tau, n, theta_c, h, m, ktype){
   y <- sim_data$y
   d <- sim_data$d
   
-  # theta0 <- c(mean(Model(x)$beta1), 0, mean(Model(x)$beta2), 0, mean(Model(x)$beta3), 0)
   in_fit <- suppressWarnings(gamlss(Surv(log(y), d) ~x,
                                     sigma.formula = ~x, nu.formula = ~x,   nu.start = 1,  
                                     family = cens(PE2), trace = FALSE))
@@ -219,13 +228,13 @@ do_sim <- function(tau, n, theta_c, h, m, ktype){
   fit.full <- nloptr(x0 = init0, eval_f = local_nll, opts = opts,
                      y = y, d = d,  x = cbind(1,x),  ker.w = NULL,
                      lb = rep(-Inf, length(init0)), ub = rep(Inf, length(init0)))
-  theta0 <- fit.full$solution
+  init <- fit.full$solution
   
   fit <- try(local.fit(tau = tau,  x = x, y = y, d = d,
-                       theta0 = theta0, h = h, m = m,  ktype = ktype), silent = TRUE)
+                       init = init, h = h, m = m,  ktype = ktype), silent = TRUE)
   if(class(fit)=="try-error"){
     fit2 <- local.fit(tau = tau,  x = x, y = y, d = d,
-                      theta0 = init0, h = h, m = m,  ktype = ktype)
+                      init = init0, h = h, m = m,  ktype = ktype)
     fit = fit2
   }
   

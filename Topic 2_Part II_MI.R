@@ -323,7 +323,7 @@ partial.fit <- function(y, d, x1, x2, alpha = 0.25,  h, x0, ktype = "ep"){
 #---------------------------------------------------------------
 # cross- validation for bandwidth selection  
 #---------------------------------------------------------------
-cv_new <- function(data, beta1, tau, alpha = 0.25, ncv, nbw, ktype){
+cv_tpa <- function(data, beta1, tau, alpha = 0.25, ncv, nbw, ktype){
   # beta1: true parameter value
   dftrain <- data[sample(nrow(data)),]
   folds <- cut(seq(1,nrow(data)), breaks = ncv, labels = FALSE)
@@ -580,7 +580,7 @@ do_sim <- function(n, beta1, tau, alpha, theta_c, ncv, nbw, ktype = "ep"){
   #-------------------------------------------------------------
   # fit the new method #
   #-------------------------------------------------------------
-  cv_n <- try(cv_new(data = sv.data, beta1 = beta1, tau = tau, alpha = alpha, 
+  cv_n <- try(cv_tpa(data = sv.data, beta1 = beta1, tau = tau, alpha = alpha, 
                      ncv = ncv, nbw = nbw, ktype = ktype)$h_cv, silent = TRUE)
   if(class(cv_n)=="try-error"){h_new = thumbBw(x2, y, deg = 1, weig = d/hatGn, kernel = EpaK)} else {h_new = cv_n}
   fit_new <- partial.fit(y = y, d = d, x1 = x1, x2 = x2, alpha = alpha,
